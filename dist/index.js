@@ -39547,14 +39547,12 @@ const core = __nccwpck_require__(7484);
 
 async function run() {
   try {
-    // Get inputs
     const joke = core.getInput("joke", { required: true });
     const token = core.getInput("token", { required: true });
 
-    // Rate the joke using GitHub Models
     const rating = await rateJoke(joke, token);
 
-    // ✅ CORRECCIÓN: Convertir el objeto a String JSON
+    // ESTA ES LA LÍNEA CLAVE:
     core.setOutput("result", JSON.stringify(rating)); 
     
   } catch (error) {
