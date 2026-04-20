@@ -8,7 +8,7 @@ async function run() {
 
     const rating = await rateJoke(joke, token);
 
-    // ESTA ES LA LÍNEA CLAVE:
+    
     core.setOutput("result", JSON.stringify(rating)); 
     
   } catch (error) {
