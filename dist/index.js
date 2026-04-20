@@ -39546,15 +39546,20 @@ const { rateJoke } = __nccwpck_require__(8863);
 const core = __nccwpck_require__(7484);
 
 async function run() {
-  // Get inputs
-  const joke = core.getInput("joke", { required: true });
-  const token = core.getInput("token", { required: true });
+  try {
+    // Get inputs
+    const joke = core.getInput("joke", { required: true });
+    const token = core.getInput("token", { required: true });
 
-  // Rate the joke using GitHub Models
-  const rating = await rateJoke(joke, token);
+    // Rate the joke using GitHub Models
+    const rating = await rateJoke(joke, token);
 
-  // Set the output
-  core.setOutput("result", rating);
+    // ✅ CORRECCIÓN: Convertir el objeto a String JSON
+    core.setOutput("result", JSON.stringify(rating)); 
+    
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
 
 module.exports = { run };
