@@ -15,7 +15,8 @@ jobs:
     name: Rate Joke
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Rate Joke
         id: rate-joke
@@ -25,6 +26,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update comment
+        if: fromJSON(steps.rate-joke.outputs.result).is_joke == true
         uses: peter-evans/create-or-update-comment@v5
         with:
           comment-id: ${{ github.event.comment.id }}
@@ -34,6 +36,8 @@ jobs:
             ## 🤖 AI Joke Rating Results
             **Your joke:**
             > ${{ github.event.comment.body }}
-            
+
             **AI Analysis:**
-            ${{ steps.rate-joke.outputs.result }}
+            - **Score:** ${{ fromJSON(steps.rate-joke.outputs.result).score }}/10
+            - **Humor Type:** ${{ fromJSON(steps.rate-joke.outputs.result).humor_type }}
+            - **Feedback:** ${{ fromJSON(steps.rate-joke.outputs.result).feedback }}
